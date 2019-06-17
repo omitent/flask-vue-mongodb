@@ -1,0 +1,8 @@
+gunicorn
+flask
+requests
+pymongo
+Flask-PyMongo
+flask-jwt-extended
+flask-bcrypt
+jsonschema
