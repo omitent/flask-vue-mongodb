@@ -6,6 +6,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 class JSONEncoder(json.JSONEncoder):
     ''' extend json-encoder class'''
@@ -18,6 +19,7 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 app = Flask(__name__)
+CORS(app)
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 app.config['JWT_SECRET_KEY'] = os.environ.get('SECRET')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
