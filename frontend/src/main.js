@@ -10,7 +10,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 
-Vue.prototype.$http = Axios
+const axios = Axios.create({
+  baseURL: process.env.VUE_APP_API_URL || '/'
+})
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 

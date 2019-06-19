@@ -1,26 +1,49 @@
 <template>
-    <div>
-        <h4>Register</h4>
-        <form>
-            <label for='username'>Username</label>
-            <div>
-                <input id='username' type='text' v-model='username' required autofocus>
-            </div>
-            <label for='password'>Password</label>
-            <div>
-                <input id='password' type='password' v-model='password' required>
-            </div>
-            <label for='password-confirm'>Confirm password</label>
-            <div>
-                <input id='password-confirm' type='password' v-model='password_confirm' required>
-            </div>
-            <div>
-                <button type='submit' @click='handleSubmit'>
-                    Sign up
-                </button>
-            </div>
-        </form>
-    </div>
+    <b-container fluid>
+        <b-row align-h='center'>
+            <b-col cols=4>
+                <b-form @submit="handleSubmit">
+                    <b-form-group>
+                        <h4>Register</h4>
+                    </b-form-group>
+                    <b-form-group
+                        label="Username"
+                        label-for="username"
+                    >
+                        <b-form-input
+                            id="username"
+                            type='text'
+                            v-model='username'
+                            required autofocus
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                        label="Password"
+                        label-for="password"
+                    >
+                        <b-form-input
+                            id="password"
+                            type='password'
+                            v-model='password'
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                        label="Confirm password"
+                        label-for="password-confirm"
+                    >
+                        <b-form-input
+                            id="password-confirm"
+                            type='password'
+                            v-model='passwordConfirm'
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-button type="submit" variant="dark">Submit</b-button>
+                </b-form>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 
@@ -32,19 +55,19 @@ export default {
         return {
             username: '',
             password: '',
-            password_confirm: ''
+            passwordConfirm: ''
         }
     },
     methods: {
         handleSubmit(e) {
             e.preventDefault()
-            if (this.password === this.password_confirm && this.password.length > 0) {
+            if (this.password === this.passwordConfirm && this.password.length > 0) {
                 const { username, password } = this
                 const { dispatch } = this.$store
                 dispatch('auth/register', { username, password })
             } else {
                 this.password = ''
-                this.password_confirm = ''
+                this.passwordConfirm = ''
                 return alert('Passwords do not match!')
             }
         }

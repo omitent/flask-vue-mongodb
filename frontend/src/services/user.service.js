@@ -1,4 +1,8 @@
-import axios from 'axios'
+import Axios from 'axios'
+
+const axios = Axios.create({
+    baseURL: process.env.VUE_APP_API_URL || '/'
+})
 
 export const userServices = {
     register,

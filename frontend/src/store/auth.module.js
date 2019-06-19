@@ -52,7 +52,7 @@ export const auth = {
                 },
                 error => {
                     commit('loginFailure', error)
-                    alert('Login failed!')
+                    alert('Invalid username and/or password!')
                 }
             )
         },

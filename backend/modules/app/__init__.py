@@ -33,4 +33,4 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
-from .users import register, login, refresh
+from .users import register, auth, refresh

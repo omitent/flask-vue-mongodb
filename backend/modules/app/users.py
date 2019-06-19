@@ -32,7 +32,7 @@ def register():
         return jsonify({'ok': False, 'message': 'Bad request parameters'}), 400
 
 @app.route('/auth', methods=['POST'])
-def login():
+def auth():
     data = validate_user(request.get_json())
     if data['ok']:
         data = data['data']
@@ -61,7 +61,7 @@ def login():
         return jsonify({
             'ok': False, 
             'message': 'Invalid authentication data'
-        })
+        }), 400
 
 @app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required

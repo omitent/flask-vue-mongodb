@@ -1,28 +1,38 @@
 <template>
-    <div class='container'>
-        <div class='row justify-content-md-center'>
-            <div class='col-4'>
-                <form>
-                    <div class='form-group'>
+    <b-container fluid>
+        <b-row align-h='center'>
+            <b-col cols=4>
+                <b-form @submit='handleSubmit'>
+                    <b-form-group>
                         <h4>Login</h4>
-                    </div>
-                    <div class='form-group'>
-                        <label for='username'>Username</label>
-                        <input class='form-control' id='username' type='text' v-model='username' required autofocus>
-                    </div>
-                    <div class='form-group'>
-                        <label for='password'>Password</label>
-                        <input class='form-control' id='password' type='password' v-model='password' required>
-                    </div>
-                    <div>
-                        <button class='btn btn-dark' type='submit' @click='handleSubmit'>
-                            Submit
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                    </b-form-group>
+                    <b-form-group
+                        label="Username"
+                        label-for="username"
+                    >
+                        <b-form-input
+                            id="username"
+                            type='text'
+                            v-model='username'
+                            required autofocus
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                        label="Password"
+                        label-for="password"
+                    >
+                        <b-form-input
+                            id="password"
+                            type='password'
+                            v-model='password'
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-button type='submit' variant='dark'>Submit</b-button>
+                </b-form>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 
