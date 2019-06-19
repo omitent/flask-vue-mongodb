@@ -5,19 +5,15 @@ from jsonschema.exceptions import SchemaError
 user_schema = {
     "type": "object",
     "properties": {
-        "name": {
-            "type": "string",
-        },
-        "email": {
-            "type": "string",
-            "format": "email"
+        "username": {
+            "type": "string"
         },
         "password": {
             "type": "string",
             "minLength": 5
         }
     },
-    "required": ["email", "password"],
+    "required": ["username", "password"],
     "additionalProperties": False
 }
 

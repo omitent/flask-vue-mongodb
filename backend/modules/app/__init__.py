@@ -1,6 +1,7 @@
 import os
 import json
 import datetime
+import logging
 from flask import Flask
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -28,4 +29,8 @@ flask_bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 app.json_encoder = JSONEncoder
 
-from .users import user
+gunicorn_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
+
+from .users import register, login, refresh
