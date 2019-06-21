@@ -1,13 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueCookie from 'vue-cookie'
 import Home from '@/components/Home'
 import NotFound from '@/components/NotFound'
 import Login from '@/components/Login'
 import Logout from '@/components/Logout'
 import Register from '@/components/Register'
-import UserProfile from '@/components/UserProfile'
+import Profile from '@/components/Profile'
+import About from '@/components/About'
+import Contact from '@/components/Contact'
 
 Vue.use(Router)
+Vue.use(VueCookie)
 
 let router = new Router({
     mode: 'history',
@@ -16,15 +20,17 @@ let router = new Router({
         { path: '/login', name: 'login', component: Login },
         { path: '/logout', name: 'logout', component: Logout },
         { path: '/register', name: 'register', component: Register },
-        { path: '/user', name: 'user', component: UserProfile },
+        { path: '/profile', name: 'profile', component: Profile },
+        { path: '/about', name: 'about', component: About },
+        { path: '/contact', name: 'contact', component: Contact },
         { path: '*', component: NotFound}
     ]
 })
 
 router.beforeEach((to, from, next) => {
-    const authPages = ['/user']
+    const authPages = ['/profile']
     const authRequired = authPages.includes(to.path)
-    const loggedIn = localStorage.getItem('user')
+    const loggedIn = Vue.cookie.get('user')
 
     if (authRequired && !loggedIn) {
         return next('/login')

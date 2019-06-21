@@ -1,12 +1,17 @@
 <template>
     <div>
-        <h1>User Profile</h1>
+        This is the about page
     </div>
 </template>
 
 
 <script>
 export default {
-    name: 'UserProfile'
+    name: 'About'
 }
 </script>
+
+
+<style scoped>
+
+</style>

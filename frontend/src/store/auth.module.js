@@ -1,7 +1,11 @@
+import Vue from 'vue'
+import VueCookie from 'vue-cookie'
 import router from '../router'
 import { userServices } from '../services'
 
-const user = JSON.parse(localStorage.getItem('user'))
+Vue.use(VueCookie)
+
+const user = JSON.parse(Vue.cookie.get('user'))
 const initialState = user 
     ? { userStatus: { loggedIn: true}, user }
     : { userStatus: {}, user: { username: null }}
