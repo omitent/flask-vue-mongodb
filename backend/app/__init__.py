@@ -30,7 +30,8 @@ jwt = JWTManager(app)
 app.json_encoder = JSONEncoder
 
 gunicorn_logger = logging.getLogger('gunicorn.error')
-app.logger.handlers = gunicorn_logger.handlers
-app.logger.setLevel(gunicorn_logger.level)
+app.logger.handlers.extend(gunicorn_logger.handlers)
+app.logger.setLevel(logging.DEBUG)
 
-from .users import register, auth, refresh
+from .users import register, auth, refresh, user_endpoint
+from .tasks import count_words

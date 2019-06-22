@@ -12,6 +12,7 @@ services:
 
   backend:
     build: ./backend
+    image: backend
     hostname: backend
     expose:
       - "8000"
@@ -19,7 +20,7 @@ services:
       - ./backend:/usr/src/app
     env_file:
       - .env
-    command: bash -c "gunicorn app:app --bind 0.0.0.0:8000"
+    command: bash -c "gunicorn main:app --bind 0.0.0.0:8000 --access-logfile -"
 
   mongodb:
     image: mongo:latest
@@ -33,9 +34,22 @@ services:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null
 
+  redis:
+    image: redis:latest
+    hostname: redis
+    expose:
+      - '6379'
+    volumes:
+      - 'redis-data:/data'
+
+  rq_worker:
+    image: backend
+    command: rq worker --url redis://redis
+
 networks:
   default:
     name: app
 
 volumes:
   mongodb-data:
+  redis-data:

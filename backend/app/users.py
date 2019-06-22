@@ -31,6 +31,7 @@ def register():
     else:
         return jsonify({'ok': False, 'message': 'Bad request parameters'}), 400
 
+
 @app.route('/auth', methods=['POST'])
 def auth():
     data = validate_user(request.get_json())
@@ -39,7 +40,7 @@ def auth():
         username = data['username']
         user = mongo.db.users.find_one({'username': username})
         if user and flask_bcrypt.check_password_hash(user['password'], data['password']):
-            del user['password']
+            del data['password']
             access_token = create_access_token(identity=data)
             refresh_token = create_refresh_token(identity=data)
             user['token'] = access_token
@@ -62,6 +63,25 @@ def auth():
             'ok': False, 
             'message': 'Invalid authentication data'
         }), 400
+
+
+@app.route('/user', methods=['GET', 'DELETE'])
+@jwt_required
+def user_endpoint():
+    current_user = get_jwt_identity()
+    db_user = mongo.db.users.find_one({'username': current_user['username']})
+    if not db_user:
+        return jsonify({'ok': False, 'message': 'User not found'}), 400
+    if request.method == 'GET':
+        return jsonify({'ok': True, 'message': 'User found', 'username': db_user['username']})
+    if request.method == 'DELETE':
+        delete_result = mongo.db.users.delete_one({'username': current_user['username']})
+        if delete_result.deleted_count == 1:
+            return jsonify({'ok': True, 'message': 'User deleted'}), 200
+        else:
+            return jsonify({'ok': False, 'message': 'Deletion failed'}), 400
+    return jsonify({'ok': False, 'message': 'invalid http request'}), 400
+
 
 @app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required

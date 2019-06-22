@@ -1,7 +1,7 @@
 import os
 import sys
 from flask import make_response, jsonify
-from modules.app import app
+from app import app
 
 PORT = os.getenv('PORT', 8000)
 
