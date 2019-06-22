@@ -1,6 +1,6 @@
 <template>
     <div>
-        This is the homepage {{ user.username }}
+        This is the homepage
     </div>
 </template>
 

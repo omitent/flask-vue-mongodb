@@ -38,7 +38,7 @@ export const auth = {
             .then(
                 user => {
                     commit('loginSuccess', user)
-                    router.push('/')
+                    router.push('/profile')
                 },
                 error => {
                     commit('loginFailure', error)
@@ -52,7 +52,7 @@ export const auth = {
             .then(
                 user => {
                     commit('loginSuccess', user)
-                    router.push('/')
+                    router.push('/profile')
                 },
                 error => {
                     commit('loginFailure', error)
