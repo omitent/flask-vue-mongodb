@@ -48,6 +48,8 @@ services:
 
   rq_worker:
     image: backend
+    env_file:
+      - .env
     command: rq worker --url redis://redis
 
 networks:

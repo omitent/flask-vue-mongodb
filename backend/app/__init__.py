@@ -35,3 +35,4 @@ app.logger.setLevel(logging.DEBUG)
 
 from .users import register, auth, refresh, user_endpoint
 from .tasks import count_words
+from .results import results, poll

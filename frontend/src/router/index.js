@@ -7,6 +7,8 @@ import Login from '@/components/Login'
 import Logout from '@/components/Logout'
 import Register from '@/components/Register'
 import Profile from '@/components/Profile'
+import Count from '@/components/Count'
+import Results from '@/components/Results'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
 
@@ -21,6 +23,8 @@ let router = new Router({
         { path: '/logout', name: 'logout', component: Logout },
         { path: '/register', name: 'register', component: Register },
         { path: '/profile', name: 'profile', component: Profile },
+        { path: '/count', name: 'count', component: Count },
+        { path: '/results', name: 'results', component: Results },
         { path: '/about', name: 'about', component: About },
         { path: '/contact', name: 'contact', component: Contact },
         { path: '*', component: NotFound}
@@ -28,7 +32,7 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    const authPages = ['/profile']
+    const authPages = ['/profile', '/count', '/results']
     const authRequired = authPages.includes(to.path)
     const loggedIn = Vue.cookie.get('user')
 
