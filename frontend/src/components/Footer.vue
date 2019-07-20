@@ -1,5 +1,12 @@
 <template>
-    <footer>&copy; {{ copyright }}</footer>
+    <v-footer app fixed color="#333">
+        <v-flex
+            text-xs-center
+            white--text
+        >
+            &copy; {{ copyright }}
+        </v-flex>
+    </v-footer>
 </template>
 
 
@@ -17,14 +24,4 @@ export default {
 
 
 <style scoped>
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    color: #ffffff;
-    background-color: #272727;
-    font-size: 10px;
-    line-height: 20px;
-    box-shadow: 1px 1px 2px 2px #c7c7c7;
-}
 </style>

@@ -1,38 +1,43 @@
 <template>
-    <b-container fluid>
-        <b-row align-h='center'>
-            <b-col cols=4>
-                <b-form @submit='handleSubmit'>
-                    <b-form-group>
-                        <h4>Login</h4>
-                    </b-form-group>
-                    <b-form-group
-                        label="Username"
-                        label-for="username"
-                    >
-                        <b-form-input
-                            id="username"
-                            type='text'
-                            v-model='username'
+    <v-layout align-center justify-center>
+        <v-flex xs12 sm8 md4>
+            <v-card>
+                <v-toolbar dark color="#333">
+                    <v-toolbar-title>Login</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                    <v-form ref='form' @submit.prevent="submit">
+                        <v-text-field
+                            prepend-icon="person"
+                            label="Username"
+                            v-model="username"
+                            :rules="usernameRules"
                             required autofocus
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                        label="Password"
-                        label-for="password"
-                    >
-                        <b-form-input
-                            id="password"
-                            type='password'
-                            v-model='password'
+                        >
+                        </v-text-field>
+                        <v-text-field
+                            prepend-icon="lock"
+                            label="Password"
+                            type="password"
+                            v-model="password"
+                            :rules="passwordRules"
                             required
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-button type='submit' variant='dark'>Submit</b-button>
-                </b-form>
-            </b-col>
-        </b-row>
-    </b-container>
+                        >
+                        </v-text-field>
+                        <v-btn type='submit' color="#eee">Login</v-btn>
+                    </v-form>
+                    <v-alert :value="userStatus.loginFailed" type="error" dismissible outline>
+                        {{ userStatus.message }}
+                    </v-alert>
+                    <div>
+                        <small>
+                            Don't have an account? Sign up <router-link to="/register">here</router-link>
+                        </small>
+                    </div>
+                </v-card-text>
+            </v-card>
+        </v-flex>
+    </v-layout>
 </template>
 
 
@@ -41,23 +46,27 @@
         name: 'Login',
         data() {
             return {
+                valid: false,
                 username: '',
                 password: '',
-                submitted: false
+                usernameRules: [
+                    v => !!v || 'Username is required'
+                ],
+                passwordRules: [
+                    v => !!v || 'Password is required'
+                ]
             }
         },
         computed: {
-            loggingIn () {
-                return this.$store.state.auth.status.loggingIn
+            userStatus() {
+                return this.$store.state.auth.userStatus
             }
         },
         methods: {
-            handleSubmit(e) {
-                e.preventDefault()
-                this.submitted = true
+            submit(e) {
                 const { username, password } = this
                 const { dispatch } = this.$store
-                if (username && password ) {
+                if (this.$refs.form.validate()) {
                     dispatch('auth/login', { username, password })
                 }
             }

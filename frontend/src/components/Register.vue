@@ -1,49 +1,52 @@
 <template>
-    <b-container fluid>
-        <b-row align-h='center'>
-            <b-col cols=4>
-                <b-form @submit="handleSubmit">
-                    <b-form-group>
-                        <h4>Register</h4>
-                    </b-form-group>
-                    <b-form-group
-                        label="Username"
-                        label-for="username"
-                    >
-                        <b-form-input
-                            id="username"
-                            type='text'
-                            v-model='username'
+    <v-layout align-center justify-center>
+        <v-flex xs12 sm8 md4>
+            <v-card>
+                <v-toolbar dark color="#333">
+                    <v-toolbar-title>Register</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                    <v-form ref='form' @submit.prevent="submit">
+                        <v-text-field
+                            prepend-icon="person"
+                            label="Username"
+                            v-model="username"
+                            :rules="usernameRules"
                             required autofocus
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                        label="Password"
-                        label-for="password"
-                    >
-                        <b-form-input
-                            id="password"
-                            type='password'
-                            v-model='password'
+                        >
+                        </v-text-field>
+                        <v-text-field
+                            prepend-icon="lock"
+                            label="Password"
+                            type="password"
+                            v-model="password"
+                            :rules="passwordRules"
                             required
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                        label="Confirm password"
-                        label-for="password-confirm"
-                    >
-                        <b-form-input
-                            id="password-confirm"
-                            type='password'
-                            v-model='passwordConfirm'
+                        >
+                        </v-text-field>
+                        <v-text-field
+                            prepend-icon="lock"
+                            label="Confirm password"
+                            type="password"
+                            v-model="passwordConfirm"
+                            :rules="passwordConfirmRules"
                             required
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-button type="submit" variant="dark">Submit</b-button>
-                </b-form>
-            </b-col>
-        </b-row>
-    </b-container>
+                        >
+                        </v-text-field>
+                        <v-btn type="submit" color="#eee">Register</v-btn>
+                    </v-form>
+                    <v-alert :value="userStatus.loginFailed" type="error" dismissible outline>
+                        {{ userStatus.message }}
+                    </v-alert>
+                    <div>
+                        <small>
+                            Already have an account? Login <router-link to="/login">here</router-link>
+                        </small>
+                    </div>
+                </v-card-text>
+            </v-card>
+        </v-flex>
+    </v-layout>
 </template>
 
 
@@ -55,22 +58,38 @@ export default {
         return {
             username: '',
             password: '',
-            passwordConfirm: ''
+            passwordConfirm: '',
+            usernameRules: [
+                v => !!v || 'Username is required',
+                v => v.indexOf(' ') < 0 || 'Username cannot contain spaces'
+            ],
+            passwordRules: [
+                v => !!v || 'Password is required',
+                v => v.length >= 5 || 'Password must be at least 5 characters long'
+            ],
+            passwordConfirmRules: [
+                v => !!v || 'Please confirm your password',
+                v => v === this.password || 'Passwords do not match'
+            ]
+        }
+    },
+    computed: {
+        userStatus() {
+            return this.$store.state.auth.userStatus
         }
     },
     methods: {
-        handleSubmit(e) {
-            e.preventDefault()
-            if (this.password === this.passwordConfirm && this.password.length > 0) {
+        submit(e) {
+            if (this.$refs.form.validate()) {
                 const { username, password } = this
                 const { dispatch } = this.$store
                 dispatch('auth/register', { username, password })
-            } else {
-                this.password = ''
-                this.passwordConfirm = ''
-                return alert('Passwords do not match!')
             }
         }
     }
 }
 </script>
+
+<style scoped>
+
+</style>

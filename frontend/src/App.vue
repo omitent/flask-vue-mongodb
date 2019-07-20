@@ -1,9 +1,13 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <Nav></Nav>
-    <router-view></router-view>
+    <v-content>
+      <v-container fluid fill-height>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
     <Footer></Footer>
-  </div>
+  </v-app>
 </template>
 
 <script>

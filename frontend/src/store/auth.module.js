@@ -22,9 +22,15 @@ export const auth = {
             state.userStatus = { loggedIn: true }
             state.user = user
         },
-        loginFailure: (state) => {
-            state.userStatus = {}
+        loginFailure: (state, message) => {
+            state.userStatus = { 
+                loginFailed: true,
+                message: message
+            }
             state.user = null
+            setTimeout(() => {
+                state.userStatus = {}
+            }, 2000)
         },
         logout: (state) => {
             state.userStatus = {}
@@ -42,7 +48,6 @@ export const auth = {
                 },
                 error => {
                     commit('loginFailure', error)
-                    alert('Login failed!')
                 }
             )
         },
@@ -55,8 +60,7 @@ export const auth = {
                     router.push('/profile')
                 },
                 error => {
-                    commit('loginFailure', error)
-                    alert('Invalid username and/or password!')
+                    commit('loginFailure', 'Invalid username and/or password!')
                 }
             )
         },

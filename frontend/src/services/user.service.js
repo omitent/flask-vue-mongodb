@@ -27,12 +27,10 @@ function register(username, password) {
     )
     .then(resp => {
         if (resp.status === 202) {
-            alert('Username already exists!')
-            return Promise.reject()
+            return Promise.reject('Username already exists!')
         }
         if (resp.data.user) {
             Vue.cookie.set('user', JSON.stringify(resp.data.user))
-            console.log(Vue.cookie.get('user'))
         }
         return resp.data.user
     })
