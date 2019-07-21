@@ -12,16 +12,44 @@
                         </v-btn>
                     </v-list-tile-action>
                 </v-list-tile>
-                <v-list-tile
-                    active-class=''
-                    v-for="page in pages"
-                    :key="page.title"
-                    :to="page.route"
-                >
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ page.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <template v-for="(page, i) in pages">
+                    <v-list-group v-if="!!page.subgroups"
+                     :prepend-icon="page.icon"
+                     :key="i"
+                    >
+                        <template v-slot:activator>
+                            <v-list-tile>
+                                <v-list-tile-title>
+                                    {{ page.title }}
+                                </v-list-tile-title>
+                            </v-list-tile>
+                        </template>
+                        <v-list-tile
+                         v-for="(subpage, j) in page.subgroups"
+                         :key="j"
+                         :to="subpage.route"
+                        >
+                            <v-list-tile-title>
+                                {{ subpage.title }}
+                            </v-list-tile-title>
+                            <v-list-tile-action>
+                                <v-icon>{{ subpage.icon }}</v-icon>
+                            </v-list-tile-action>
+                        </v-list-tile>
+                    </v-list-group>
+                    <v-list-tile v-else
+                     active-class=''
+                     :to="page.route"
+                     :key="i"
+                    >
+                        <v-list-tile-action>
+                            <v-icon>{{ page.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-title>
+                            {{ page.title }}
+                        </v-list-tile-title>
+                    </v-list-tile>
+                </template>
             </v-list>
         </v-navigation-drawer>
         <v-toolbar 
@@ -72,8 +100,12 @@ export default {
             open: false
         },
         pages: [
-            { title: 'Home', route: '/' },
-            { title: 'About', route:'/about'}
+            { title: 'Home', icon: 'home', route: '/' },
+            { title: 'About', icon: 'help', route: '/about'},
+            { title: 'Group', icon: 'group_work', subgroups: [
+                { title: 'Count Words', icon: 'subject', route: '/count' },
+                { title: 'Results', icon: 'list', route: '/results' }
+            ]}
         ]
     }),
     methods: {
