@@ -30,7 +30,7 @@ export const auth = {
             state.user = null
             setTimeout(() => {
                 state.userStatus = {}
-            }, 2000)
+            }, 3000)
         },
         logout: (state) => {
             state.userStatus = {}

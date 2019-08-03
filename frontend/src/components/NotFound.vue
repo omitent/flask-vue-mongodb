@@ -1,11 +1,7 @@
 <template>
-    <b-container fluid>
-        <b-row align-h='center'>
-            <b-col>
-                This page doesn't exist!
-            </b-col>
-        </b-row>
-    </b-container>
+    <v-container>
+        Not found
+    </v-container>
 </template>
 
 <script>

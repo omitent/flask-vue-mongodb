@@ -1,93 +1,97 @@
 <template>
     <nav>
         <v-navigation-drawer
-            v-model="drawer.open"
+            v-model="drawer"
             app
         >
-            <v-list>
-                <v-list-tile>
-                    <v-list-tile-action @click="toggleDrawer">
+            <v-list dense nav>
+                <v-list-item>
+                    <v-list-item-action @click="drawer = !drawer">
                         <v-btn icon>
                             <v-icon>arrow_back</v-icon>
                         </v-btn>
-                    </v-list-tile-action>
-                </v-list-tile>
+                    </v-list-item-action>
+                    <v-list-item-title>
+                        Navigation
+                    </v-list-item-title>
+                </v-list-item>
                 <template v-for="(page, i) in pages">
                     <v-list-group v-if="!!page.subgroups"
                      :prepend-icon="page.icon"
                      :key="i"
                     >
                         <template v-slot:activator>
-                            <v-list-tile>
-                                <v-list-tile-title>
-                                    {{ page.title }}
-                                </v-list-tile-title>
-                            </v-list-tile>
+                            <v-list-item-title>
+                                {{ page.title }}
+                            </v-list-item-title>
                         </template>
-                        <v-list-tile
+                        <v-list-item
                          v-for="(subpage, j) in page.subgroups"
                          :key="j"
                          :to="subpage.route"
                         >
-                            <v-list-tile-title>
+                            <v-list-item-title>
                                 {{ subpage.title }}
-                            </v-list-tile-title>
-                            <v-list-tile-action>
+                            </v-list-item-title>
+                            <v-list-item-action>
                                 <v-icon>{{ subpage.icon }}</v-icon>
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                     </v-list-group>
-                    <v-list-tile v-else
+                    <v-list-item v-else
                      active-class=''
                      :to="page.route"
                      :key="i"
                     >
-                        <v-list-tile-action>
+                        <v-list-item-action>
                             <v-icon>{{ page.icon }}</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-title>
+                        </v-list-item-action>
+                        <v-list-item-title>
                             {{ page.title }}
-                        </v-list-tile-title>
-                    </v-list-tile>
+                        </v-list-item-title>
+                    </v-list-item>
                 </template>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar 
+        <v-app-bar 
             app
             fixed
             dark color="#333"
         >
-            <v-toolbar-side-icon 
-                @click.stop="toggleDrawer"
-            ></v-toolbar-side-icon>
-            <v-btn to='/' icon active-class=''>
+            <v-app-bar-nav-icon 
+                @click.stop="drawer = !drawer"
+            ></v-app-bar-nav-icon>
+            <v-btn to='/' icon>
                 <v-icon>home</v-icon>
+            </v-btn>
+            <v-btn to='/modules' icon>
+                <v-icon>apps</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
             <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                    <v-btn icon active-class='' v-on='on'>
+                    <v-btn icon v-on='on'>
                         <v-icon>account_circle</v-icon>
                     </v-btn>
                 </template>
                 <v-list v-if="loggedIn">
-                    <v-list-tile to='/profile' active-class=''>
-                        <v-list-tile-title>Profile</v-list-tile-title>
-                    </v-list-tile>
-                    <v-list-tile to='/logout' active-class=''>
-                        <v-list-tile-title>Logout</v-list-tile-title>
-                    </v-list-tile>
+                    <v-list-item to='/profile'>
+                        <v-list-item-title>Profile</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item to='/logout'>
+                        <v-list-item-title>Logout</v-list-item-title>
+                    </v-list-item>
                 </v-list>
                 <v-list v-else>
-                    <v-list-tile to='/register' active-class=''>
-                        <v-list-tile-title>Register</v-list-tile-title>
-                    </v-list-tile>
-                    <v-list-tile to='/login' active-class=''>
-                        <v-list-tile-title>Login</v-list-tile-title>
-                    </v-list-tile>
+                    <v-list-item to='/register'>
+                        <v-list-item-title>Register</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item to='/login'>
+                        <v-list-item-title>Login</v-list-item-title>
+                    </v-list-item>
                 </v-list>
             </v-menu>
-        </v-toolbar>
+        </v-app-bar>
     </nav>
 </template>
 
@@ -96,9 +100,7 @@
 export default {
     name: 'Nav',
     data: () => ({
-        drawer: {
-            open: false
-        },
+        drawer: false,
         pages: [
             { title: 'Home', icon: 'home', route: '/' },
             { title: 'About', icon: 'help', route: '/about'},

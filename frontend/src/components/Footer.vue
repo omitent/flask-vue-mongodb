@@ -1,7 +1,7 @@
 <template>
     <v-footer app fixed color="#333">
         <v-flex
-            text-xs-center
+            text-center
             white--text
         >
             &copy; {{ copyright }}

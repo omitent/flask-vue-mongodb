@@ -1,6 +1,6 @@
 <template>
 <v-container fluid grid-list-md>
-    <v-layout align-start justify-space-around row wrap text-xs-center>
+    <v-layout align-start justify-space-around row wrap text-center>
         <v-flex xs12 tag='h1'>
             This is the homepage
         </v-flex>
@@ -17,7 +17,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat>Test</v-btn>
+                    <v-btn text>Test</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -31,7 +31,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat>Test</v-btn>
+                    <v-btn text>Test</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -45,7 +45,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat>Test</v-btn>
+                    <v-btn text>Test</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -59,7 +59,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat>Test</v-btn>
+                    <v-btn text>Test</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>

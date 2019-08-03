@@ -1,6 +1,6 @@
 <template>
 <v-container fluid fill-height>
-    <v-layout align-center justify-center text-xs-center>
+    <v-layout align-center justify-center text-center>
         <v-flex xs12 sm8 md4>
             <v-card>
                 <v-toolbar dark color="#333">
@@ -36,13 +36,15 @@
                         </v-text-field>
                         <v-btn type="submit" color="#eee">Register</v-btn>
                     </v-form>
-                    <v-alert :value="userStatus.loginFailed" type="error" dismissible outline>
-                        {{ userStatus.message }}
-                    </v-alert>
                     <div>
                         <small>
                             Already have an account? Login <router-link to="/login">here</router-link>
                         </small>
+                    </div>
+                    <div>
+                        <v-alert :value="!!userStatus.loginFailed" type="error" border="left" colored-border dismissible elevation="2" outlined>
+                            {{ userStatus.message }}
+                        </v-alert>
                     </div>
                 </v-card-text>
             </v-card>
