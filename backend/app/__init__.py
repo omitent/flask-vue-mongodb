@@ -40,6 +40,9 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://{}:6379/0'.format(REDIS_HOST)
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
+app.config['DEBUG'] = os.getenv('DEBUG') in [1, 'True', 'true']
+
 from .users import register, auth, refresh, user_endpoint
 from .tasks.tasks import count_words
+from .tasks.status import get_status
 from .results import results, poll

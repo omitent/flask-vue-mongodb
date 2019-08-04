@@ -1,6 +1,6 @@
 <template>
 <v-container fluid fill-height>
-    <v-layout justify-center row>
+    <v-layout align-content-start justify-center row>
         <v-flex xs12 text-center>
             <h1>
                 Results
