@@ -7,4 +7,5 @@ Flask-PyMongo
 flask-jwt-extended
 flask-bcrypt
 jsonschema
-rq
+celery
+redis

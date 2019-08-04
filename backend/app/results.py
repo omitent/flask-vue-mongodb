@@ -20,10 +20,9 @@ def results():
             'results': list(db_results)
         }), 200
     elif request.method == 'DELETE':
-        req_json = request.get_json()
-        _id = req_json.get('_id')
+        _id = request.args.get('_id')
         delete_result = mongo.db.results.delete_one({
-            '_id': _id,
+            '_id': bson.ObjectId(_id),
             'uid': str(db_user['_id'])
         })
         if delete_result.deleted_count > 0:
@@ -58,6 +57,7 @@ def poll(_id):
             'ok': True,
             'message': 'Result found',
             'finished': bool(result.get('finished')),
+            'error': result.get('error'),
             'result': result
         }), 200
     else:

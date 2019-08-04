@@ -46,11 +46,11 @@ services:
     volumes:
       - 'redis-data:/data'
 
-  rq_worker:
+  worker:
     image: backend
     env_file:
       - .env
-    command: rq worker --url redis://redis
+    command: celery worker -A app.celery -n worker@%h
 
 networks:
   default:

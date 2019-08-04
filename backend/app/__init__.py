@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
+from celery import Celery
 
 class JSONEncoder(json.JSONEncoder):
     ''' extend json-encoder class'''
@@ -33,6 +34,12 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers.extend(gunicorn_logger.handlers)
 app.logger.setLevel(logging.DEBUG)
 
+REDIS_HOST = os.getenv('REDIS_HOST', 'redis')
+app.config['CELERY_BROKER_URL'] = 'redis://{}:6379/0'.format(REDIS_HOST)
+app.config['CELERY_RESULT_BACKEND'] = 'redis://{}:6379/0'.format(REDIS_HOST)
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
+
 from .users import register, auth, refresh, user_endpoint
-from .tasks import count_words
+from .tasks.tasks import count_words
 from .results import results, poll
