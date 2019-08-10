@@ -128,4 +128,7 @@ export default {
 
 
 <style scoped>
+.v-btn--active:before {
+    opacity: 0 !important
+}
 </style>
