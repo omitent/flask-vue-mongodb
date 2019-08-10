@@ -34,34 +34,33 @@ def register():
 @app.route('/auth', methods=['POST'])
 def auth():
     data = validate_user(request.get_json())
-    if data['ok']:
-        data = data['data']
-        username = data['username']
-        user = mongo.db.users.find_one({'username': username})
-        if user and flask_bcrypt.check_password_hash(user['password'], data['password']):
-            del data['password']
-            access_token = create_access_token(identity=data)
-            refresh_token = create_refresh_token(identity=data)
-            user['token'] = access_token
-            user['refresh'] = refresh_token
-            return jsonify({
-                'ok': True,
-                'message': 'User authenticated',
-                'user': {
-                    'username': username,
-                    'token': access_token
-                }
-            }), 200
-        else:
-            return jsonify({
-                'ok': False, 
-                'message': 'Incorrect username and/or password'
-            }), 400
-    else:
+    if not data['ok']:
         return jsonify({
             'ok': False, 
             'message': 'Invalid authentication data'
         }), 400
+    data = data['data']
+    username = data['username']
+    user = mongo.db.users.find_one({'username': username})
+    if not user or not flask_bcrypt.check_password_hash(user['password'], data['password']):
+        return jsonify({
+            'ok': False, 
+            'message': 'Incorrect username and/or password'
+        }), 400
+    del data['password']
+    access_token = create_access_token(identity=data)
+    refresh_token = create_refresh_token(identity=data)
+    user['token'] = access_token
+    user['refresh'] = refresh_token
+    return jsonify({
+        'ok': True,
+        'message': 'User authenticated',
+        'user': {
+            'username': username,
+            'token': access_token
+        }
+    }), 200
+        
 
 
 @app.route('/user', methods=['GET', 'DELETE'])
