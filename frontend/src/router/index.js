@@ -12,6 +12,7 @@ import Results from '@/components/Results'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
 import Status from '@/components/Status'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 Vue.use(VueCookie)
@@ -29,12 +30,13 @@ let router = new Router({
         { path: '/about', name: 'about', component: About },
         { path: '/contact', name: 'contact', component: Contact },
         { path: '/status', name: 'status', component: Status},
-        { path: '*', component: NotFound}
+        { path: '/admin', name: 'admin', component: Admin },
+        { path: '*', component: NotFound},
     ]
 })
 
 router.beforeEach((to, from, next) => {
-    const authPages = ['/profile', '/count', '/results', '/status']
+    const authPages = ['/profile', '/count', '/results', '/status', '/admin']
     const authRequired = authPages.includes(to.path)
     const loggedIn = Vue.cookie.get('user')
 

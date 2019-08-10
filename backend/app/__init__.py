@@ -42,6 +42,7 @@ celery.conf.update(app.config)
 
 app.config['DEBUG'] = os.getenv('DEBUG') in [1, 'True', 'true']
 
+from .admin import group, admin_auth
 from .users import register, auth, refresh, user_endpoint
 from .tasks.tasks import count_words
 from .tasks.status import get_status
