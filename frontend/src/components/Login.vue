@@ -25,7 +25,7 @@
                             required
                         >
                         </v-text-field>
-                        <v-btn :loading="loading" type='submit' color="#eee">Login</v-btn>
+                        <v-btn type='submit' color="#eee">Login</v-btn>
                     </v-form>
                     <div>
                         <small>
@@ -69,7 +69,6 @@
         },
         methods: {
             submit(e) {
-                this.loading = true
                 const { username, password } = this
                 const { dispatch } = this.$store
                 if (this.$refs.form.validate()) {
