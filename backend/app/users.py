@@ -7,29 +7,28 @@ from .schemas import validate_user
 @app.route('/register', methods=['POST'])
 def register():
     data = validate_user(request.get_json())
-    if data['ok']:
-        data = data['data']
-        username = data['username']
-        user = mongo.db.users.find_one({'username': username})
-        if user:
-            return jsonify({
-                'ok': False,
-                'message': 'Username already exists'
-            }), 202
-        data['password'] = flask_bcrypt.generate_password_hash(data['password'])
-        mongo.db.users.insert_one(data)
-        del data['password']
-        access_token = create_access_token(identity=data)
-        return jsonify({
-            'ok': True, 
-            'message': 'User created successfully',
-            'user': {
-                'username': username,
-                'token': access_token
-            }
-        }), 200
-    else:
+    if not data['ok']:
         return jsonify({'ok': False, 'message': 'Bad request parameters'}), 400
+    data = data['data']
+    username = data['username']
+    user = mongo.db.users.find_one({'username': username})
+    if user:
+        return jsonify({
+            'ok': False,
+            'message': 'Username already exists'
+        }), 202
+    data['password'] = flask_bcrypt.generate_password_hash(data['password'])
+    mongo.db.users.insert_one(data)
+    del data['password']
+    access_token = create_access_token(identity=data)
+    return jsonify({
+        'ok': True, 
+        'message': 'User created successfully',
+        'user': {
+            'username': username,
+            'token': access_token
+        }
+    }), 200
 
 
 @app.route('/auth', methods=['POST'])
