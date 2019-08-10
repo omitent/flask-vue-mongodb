@@ -34,7 +34,7 @@
                             required
                         >
                         </v-text-field>
-                        <v-btn type="submit" color="#eee">Register</v-btn>
+                        <v-btn :loading="loading" type="submit" color="#eee">Register</v-btn>
                     </v-form>
                     <div>
                         <small>
@@ -74,7 +74,8 @@ export default {
             passwordConfirmRules: [
                 v => !!v || 'Please confirm your password',
                 v => v === this.password || 'Passwords do not match'
-            ]
+            ],
+            loading: false
         }
     },
     computed: {
@@ -85,6 +86,7 @@ export default {
     methods: {
         submit(e) {
             if (this.$refs.form.validate()) {
+                this.loading = true
                 const { username, password } = this
                 const { dispatch } = this.$store
                 dispatch('auth/register', { username, password })
