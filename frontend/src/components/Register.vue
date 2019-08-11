@@ -34,18 +34,16 @@
                             required
                         >
                         </v-text-field>
-                        <v-btn type="submit" color="#eee">Register</v-btn>
+                        <v-btn :loading='userStatus.loggingIn' type="submit" color="#eee">Register</v-btn>
                     </v-form>
                     <div>
                         <small>
                             Already have an account? Login <router-link to="/login">here</router-link>
                         </small>
                     </div>
-                    <div>
-                        <v-alert :value="!!userStatus.loginFailed" type="error" border="left" colored-border dismissible elevation="2" outlined>
-                            {{ userStatus.message }}
-                        </v-alert>
-                    </div>
+                    <v-snackbar :value="!!userStatus.loginFailed" bottom color='error'>
+                        {{ userStatus.message }}
+                    </v-snackbar>
                 </v-card-text>
             </v-card>
         </v-flex>
@@ -74,8 +72,7 @@ export default {
             passwordConfirmRules: [
                 v => !!v || 'Please confirm your password',
                 v => v === this.password || 'Passwords do not match'
-            ],
-            loading: false
+            ]
         }
     },
     computed: {

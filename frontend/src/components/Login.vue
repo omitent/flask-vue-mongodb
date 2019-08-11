@@ -25,18 +25,16 @@
                             required
                         >
                         </v-text-field>
-                        <v-btn type='submit' color="#eee">Login</v-btn>
+                        <v-btn :loading='userStatus.loggingIn' type='submit' color="#eee">Login</v-btn>
                     </v-form>
                     <div>
                         <small>
                             Don't have an account? Sign up <router-link to="/register">here</router-link>
                         </small>
                     </div>
-                    <div>
-                        <v-alert :value="!!userStatus.loginFailed" type="error" border="left" colored-border dismissible elevation="2" outlined>
-                            {{ userStatus.message }}
-                        </v-alert>
-                    </div>
+                    <v-snackbar :value="!!userStatus.loginFailed" bottom color='error'>
+                        {{ userStatus.message }}
+                    </v-snackbar>
                 </v-card-text>
             </v-card>
         </v-flex>
@@ -50,7 +48,6 @@
         name: 'Login',
         data() {
             return {
-                valid: false,
                 username: '',
                 password: '',
                 usernameRules: [
@@ -58,8 +55,7 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required'
-                ],
-                loading: false
+                ]
             }
         },
         computed: {
@@ -69,6 +65,7 @@
         },
         methods: {
             submit(e) {
+                this.loading = true
                 const { username, password } = this
                 const { dispatch } = this.$store
                 if (this.$refs.form.validate()) {
