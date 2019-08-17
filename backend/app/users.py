@@ -70,6 +70,7 @@ def user_endpoint():
     db_user = mongo.db.users.find_one({'username': current_user['username']})
     if not db_user:
         return jsonify({'ok': False, 'message': 'User not found'}), 400
+    del db_user['password']
     if request.method == 'GET':
         return jsonify({'ok': True, 'message': 'User found', 'username': db_user['username']})
     if request.method == 'DELETE':
